@@ -1,0 +1,2 @@
+Comparify Changelog
+===================
