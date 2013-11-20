@@ -16,4 +16,28 @@ class Comparify_ComparifyTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertTrue(is_string($this->comparify->transform(('foo'))));
 	}
+
+	/**
+	 * @test
+	 */
+	public function stripsWhitespaceOfStart()
+	{
+		$this->assertEquals('foo', $this->comparify->transform(' foo'));
+	}
+
+	/**
+	 * @test
+	 */
+	public function stripsWhitespaceOfEnd()
+	{
+		$this->assertEquals('foo', $this->comparify->transform('foo '));
+	}
+
+	/**
+	 * @test
+	 */
+	public function addsWhitespaceBeforeClosingOfSelfClosingTag()
+	{
+		$this->assertEquals('<br />', $this->comparify->transform('<br/>'));
+	}
 }
