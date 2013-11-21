@@ -68,4 +68,17 @@ class Comparify_ComparifyTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($result, $this->comparify->transform($text));		
 	}
+
+	/**
+	 * @test
+	 */
+	public function setsBlockquotesOnOwnLine()
+	{
+		$text = "<p>paragraph</p><blockquote>foo</blockquote>";
+
+		$result = "<p>paragraph</p>
+<blockquote>foo</blockquote>";
+
+		$this->assertEquals($result, $this->comparify->transform($text));
+	}
 }

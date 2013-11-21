@@ -26,7 +26,7 @@ class Comparify
 	{
 		$text = $this->handleSelfClosingTags($text);
 		$text = $this->removeBlankLineBetweenElements($text);
-		$text = $this->setHeadersOnOwnLine($text);
+		$text = $this->setOnOwnLine($text);
 		$text = trim($text);
 
 		return $text;
@@ -67,13 +67,16 @@ class Comparify
 		);
 	}
 
-	private function setHeadersOnOwnLine($text)
+	private function setOnOwnLine($text)
 	{
+		$tags = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote');
+		$tags = implode('|', $tags);
+
 		$pattern =
 			"@
 			[\n]*
 			(?<html>
-				<(?<tag>h1|h2|h3|h4|h5|h6)" . $this->attributes . ">
+				<(?<tag>" . $tags . ")" . $this->attributes . ">
 					(?<content>
 						(
 							[^<]
