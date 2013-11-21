@@ -55,4 +55,17 @@ class Comparify_ComparifyTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($result, $this->comparify->transform($text));
 	}
+
+	/**
+	 * @test
+	 */
+	public function setsHeaderElementsOnOwnLine()
+	{
+		$text = "<p>paragraph</p><h1>header</h1>";
+
+		$result = "<p>paragraph</p>
+<h1>header</h1>";
+
+		$this->assertEquals($result, $this->comparify->transform($text));		
+	}
 }
