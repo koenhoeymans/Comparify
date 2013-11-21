@@ -40,4 +40,19 @@ class Comparify_ComparifyTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertEquals('<br />', $this->comparify->transform('<br/>'));
 	}
+
+	/**
+	 * @test
+	 */
+	public function removesBlankLineAfterTag()
+	{
+		$text = "<p>paragraph</p>
+
+<p>other paragraph</p>";
+
+		$result = "<p>paragraph</p>
+<p>other paragraph</p>";
+
+		$this->assertEquals($result, $this->comparify->transform($text));
+	}
 }
