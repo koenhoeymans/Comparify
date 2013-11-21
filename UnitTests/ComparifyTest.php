@@ -81,4 +81,17 @@ class Comparify_ComparifyTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($result, $this->comparify->transform($text));
 	}
+
+	/**
+	 * @test
+	 */
+	public function setsParagraphsOnOwnLine()
+	{
+		$text = "<a>b</a><p>paragraph</p>";
+
+		$result = "<a>b</a>
+<p>paragraph</p>";
+
+		$this->assertEquals($result, $this->comparify->transform($text));
+	}
 }

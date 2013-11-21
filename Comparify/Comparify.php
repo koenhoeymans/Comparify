@@ -25,8 +25,8 @@ class Comparify
 	public function transform($text)
 	{
 		$text = $this->handleSelfClosingTags($text);
+		$text = $this->setBlockElementsOnOwnLine($text);
 		$text = $this->removeBlankLineBetweenElements($text);
-		$text = $this->setOnOwnLine($text);
 		$text = trim($text);
 
 		return $text;
@@ -54,22 +54,22 @@ class Comparify
 					)
 				</\g{tag}>
 			)
-			[\n]
+			[\n][\n]
 			@x";
 
 		return preg_replace_callback(
 			$pattern,
 			function($match)
 			{
-				return $match['html'];
+				return $match['html'] . "\n";
 			},
 			$text
 		);
 	}
 
-	private function setOnOwnLine($text)
+	private function setBlockElementsOnOwnLine($text)
 	{
-		$tags = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote');
+		$tags = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p');
 		$tags = implode('|', $tags);
 
 		$pattern =
@@ -88,7 +88,7 @@ class Comparify
 			)
 			[\n]*
 			@x";
-		
+
 		return preg_replace_callback(
 			$pattern,
 			function($match)
