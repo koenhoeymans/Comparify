@@ -76,6 +76,25 @@ class Comparify_ComparifyTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @test
 	 */
+	public function removesBlankLinesAfterTagRecursive()
+	{
+		$text = "<div>
+<p>paragraph</p>
+
+<p>other paragraph</p>
+</div>";
+
+		$result = "<div>
+<p>paragraph</p>
+<p>other paragraph</p>
+</div>";
+
+		$this->assertEquals($result, $this->comparify->transform($text));		
+	}
+
+	/**
+	 * @test
+	 */
 	public function setsHeaderElementsOnOwnLine()
 	{
 		$text = "<p>paragraph</p><h1>header</h1>";

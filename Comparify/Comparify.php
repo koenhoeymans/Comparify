@@ -35,7 +35,7 @@ class Comparify
 
 	private function handleSelfClosingTags($text)
 	{
-		$pattern = 	"@<(?<tag>hr|div|br)" . $this->attributes . "/?>@x";
+		$pattern = 	"@<(?<tag>hr|br)" . $this->attributes . "/?>@x";
 
 		return preg_replace($pattern, '<\1 \2/>', $text);
 	}
