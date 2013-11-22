@@ -59,6 +59,23 @@ class Comparify_ComparifyTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @test
 	 */
+	public function removesMultipleBlankLinesAfterTag()
+	{
+		$text = "<p>paragraph</p>
+
+
+
+<p>other paragraph</p>";
+
+		$result = "<p>paragraph</p>
+<p>other paragraph</p>";
+
+		$this->assertEquals($result, $this->comparify->transform($text));
+	}
+
+	/**
+	 * @test
+	 */
 	public function setsHeaderElementsOnOwnLine()
 	{
 		$text = "<p>paragraph</p><h1>header</h1>";
@@ -91,6 +108,20 @@ class Comparify_ComparifyTest extends PHPUnit_Framework_TestCase
 
 		$result = "<a>b</a>
 <p>paragraph</p>";
+
+		$this->assertEquals($result, $this->comparify->transform($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function setsListItemsOnOwnLine()
+	{
+		$text = "<ul><li>item</li></ul>";
+
+		$result = "<ul>
+<li>item</li>
+</ul>";
 
 		$this->assertEquals($result, $this->comparify->transform($text));
 	}
