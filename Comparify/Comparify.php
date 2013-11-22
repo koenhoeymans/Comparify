@@ -25,6 +25,7 @@ class Comparify
 	public function transform($text)
 	{
 		$text = $this->handleSelfClosingTags($text);
+		$text = $this->removeWhitespaceBeforeTagsOnOwnLine($text);
 		$text = $this->setBlockElementsOnOwnLine($text);
 		$text = $this->removeBlankLineBetweenElements($text);
 		$text = trim($text);
@@ -97,5 +98,21 @@ class Comparify
 			},
 			$text
 		);
+	}
+
+	private function removeWhitespaceBeforeTagsOnOwnLine($text)
+	{
+		$pattern =
+			"@
+			(?<=[\n]|^)
+				([ \t]+)
+				(
+					<(\w+)" . $this->attributes . ">
+					|
+					</(\w+)>
+				)
+			@x";
+
+		return preg_replace($pattern, '\2', $text);
 	}
 }

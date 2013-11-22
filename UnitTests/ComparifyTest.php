@@ -94,4 +94,18 @@ class Comparify_ComparifyTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($result, $this->comparify->transform($text));
 	}
+
+	/**
+	 * @test
+	 */
+	public function removesWhiteSpaceBeforeTagsOnOwnLine()
+	{
+		$text = "<foo>bar</foo>
+ <a>b</a>";
+
+		$result = "<foo>bar</foo>
+<a>b</a>";
+
+		$this->assertEquals($result, $this->comparify->transform($text));		
+	}
 }
