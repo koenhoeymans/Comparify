@@ -77,7 +77,7 @@ class Comparify
 			"@
 			[\n]*
 			(?<html>
-				<(?<tag>" . $tags . ")" . $this->attributes . ">
+				(?<full_tag><(?<tag>" . $tags . ")" . $this->attributes . ">)
 					(?<content>
 						(
 							[^<]
@@ -94,7 +94,10 @@ class Comparify
 			$pattern,
 			function($match)
 			{
-				return "\n" . $match['html'] . "\n";
+				$content = $this->setBlockElementsOnOwnLine($match['content']);
+				return "\n"
+					. $match['full_tag'] . $content
+					. '</' . $match['tag'] . ">\n";
 			},
 			$text
 		);
