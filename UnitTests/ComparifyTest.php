@@ -76,6 +76,22 @@ class Comparify_ComparifyTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @test
 	 */
+	public function removesMultipleBlankLines_2()
+	{
+		$text = "<p>This is the <b>simple case</b></p>
+
+
+<p>This one has a <b>line break</b></p>";
+
+		$result = "<p>This is the <b>simple case</b></p>
+<p>This one has a <b>line break</b></p>";
+
+		$this->assertEquals($result, $this->comparify->transform($text));
+	}
+
+	/**
+	 * @test
+	 */
 	public function removesBlankLinesAfterTagRecursive()
 	{
 		$text = "<div>

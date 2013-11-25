@@ -111,7 +111,7 @@ class Comparify
 					)
 				</\g{tag}>
 			)
-			[\n][\n]
+			[\n][\n]+
 			@x";
 
 		return preg_replace_callback(
