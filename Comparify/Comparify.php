@@ -136,6 +136,8 @@ class Comparify
 							[^<]
 							|
 							(?&html)
+							|
+							<code>(.|[\n])+</code>
 						)*
 					)
 				</\g{tag}>

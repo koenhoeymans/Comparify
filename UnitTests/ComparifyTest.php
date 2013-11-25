@@ -92,6 +92,30 @@ class Comparify_ComparifyTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @test
 	 */
+	public function removesBlankLinesAfterCodeElementInsideOtherElement()
+	{
+		$text = "<div>
+
+<code>
+foo
+</code>
+
+</div>
+
+";
+
+		$result = "<div>
+<code>
+foo
+</code>
+</div>";
+
+		$this->assertEquals($result, $this->comparify->transform($text));
+	}
+
+	/**
+	 * @test
+	 */
 	public function removesBlankLinesAfterTagRecursive()
 	{
 		$text = "<div>
