@@ -95,6 +95,36 @@ class Comparify_ComparifyTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @test
 	 */
+	public function removesSpacesOnBlankLines()
+	{
+		$text = "<p>foo</p>
+ 
+<p>bar</p>";
+
+		$result = "<p>foo</p>
+<p>bar</p>";
+
+		$this->assertEquals($result, $this->comparify->transform($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function removesTabsOnBlankLines()
+	{
+		$text = "<p>foo</p>
+	
+<p>bar</p>";
+
+		$result = "<p>foo</p>
+<p>bar</p>";
+
+		$this->assertEquals($result, $this->comparify->transform($text));
+	}
+
+	/**
+	 * @test
+	 */
 	public function removesBlankLineInsideElement()
 	{
 		$text = "<a>

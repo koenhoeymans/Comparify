@@ -25,6 +25,7 @@ class Comparify
 	public function transform($text)
 	{
 		$text = $this->handleSelfClosingTags($text);
+		$text = $this->removeSpacingOnBlankLines($text);
 		$text = $this->setOpeningTagsOnOneLine($text);
 		$text = $this->setEmptyTagsOnOneLine($text);
 		$text = $this->removeWhitespaceBeforeTagsOnOwnLine($text);
@@ -41,6 +42,11 @@ class Comparify
 		$pattern = 	"@<(?<tag>hr|br)" . $this->attributes . "/?>@x";
 
 		return preg_replace($pattern, '<\1 \2/>', $text);
+	}
+
+	private  function removeSpacingOnBlankLines($text)
+	{
+		return preg_replace("@(?<=^|\n)([ ]|\t)+(?=\n|$)@", "", $text);
 	}
 
 	private function setOpeningTagsOnOneLine($text)
