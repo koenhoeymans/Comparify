@@ -95,6 +95,41 @@ class Comparify_ComparifyTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @test
 	 */
+	public function removesBlankLineInsideElement()
+	{
+		$text = "<a>
+
+foo
+</a>";
+
+		$result = "<a>
+foo
+</a>";
+
+		$this->assertEquals($result, $this->comparify->transform($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function doesntRemoveBlankLineInsideCodeElements()
+	{
+		$text = "<code>
+
+bar
+</code>";
+
+		$result = "<code>
+
+bar
+</code>";
+
+		$this->assertEquals($result, $this->comparify->transform($text));		
+	}
+
+	/**
+	 * @test
+	 */
 	public function setsHeaderElementsOnOwnLine()
 	{
 		$text = "<p>paragraph</p><h1>header</h1>";
@@ -155,6 +190,32 @@ class Comparify_ComparifyTest extends PHPUnit_Framework_TestCase
 
 		$result = "<foo>bar</foo>
 <a>b</a>";
+
+		$this->assertEquals($result, $this->comparify->transform($text));		
+	}
+
+	/**
+	 * @test
+	 */
+	public function tagsOnMultipleLinesArePutOnOneLine()
+	{
+		$text = "<foo
+	id=\"bar\">bar</foo>";
+
+		$result = "<foo id=\"bar\">bar</foo>";
+
+		$this->assertEquals($result, $this->comparify->transform($text));		
+	}
+
+	/**
+	 * @test
+	 */
+	public function setsHorizontalRuleOnOneLine()
+	{
+		$text = "<hr
+	id=\"bar\" >";
+
+		$result = "<hr id=\"bar\" />";
 
 		$this->assertEquals($result, $this->comparify->transform($text));		
 	}
