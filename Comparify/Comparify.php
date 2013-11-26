@@ -11,7 +11,7 @@ namespace Comparify;
 class Comparify
 {
 	private $attributes =
-		"(?<attributes>
+		"(?J)(?<attributes>
 			(
 			\s+
 			\w+(=(?:\"[^\"]*?\"|\'[^\']*?\'|[^\'\">\s]+))?
@@ -20,7 +20,7 @@ class Comparify
 
 	private function selfClosingElement()
 	{
-		return "<(?<full_tag>(?<tag>hr|br)" . $this->attributes . ")[ ]?/?>";
+		return "<(?<self_closing_tag>(hr|br|img)" . $this->attributes . ")[ ]?/?>";
 	}
 
 	private function element(array $allowedTags = null)
@@ -45,6 +45,8 @@ class Comparify
 						(?&element)
 						|
 						<code>(.|[\n])+</code>
+						|
+						" . $this->selfClosingElement() . "
 					)*
 				)
 			</\g{tag}>
@@ -103,7 +105,10 @@ class Comparify
 			$pattern,
 			function($match)
 			{
-				return '<' . preg_replace("@\n([ ]+|\t+)@", ' ', $match['full_tag']) . ' />';
+				return
+					'<'
+					. preg_replace("@\n([ ]+|\t+)@", ' ', $match['self_closing_tag'])
+					. ' />';
 			},
 			$text
 		);
@@ -111,8 +116,7 @@ class Comparify
 
 	private function removeBlankLineBetweenElements($text)
 	{
-		$pattern =
-			"@" . $this->element() . "[\n][\n]+	@x";
+		$pattern = "@" . $this->element() . "[\n][\n]+	@x";
 
 		return preg_replace_callback(
 			$pattern,
@@ -138,6 +142,8 @@ class Comparify
 							(?&html)
 							|
 							<code>(.|[\n])+</code>
+							|
+							" . $this->selfClosingElement() . "
 						)*
 					)
 				</\g{tag}>
