@@ -116,6 +116,23 @@ foo
 	/**
 	 * @test
 	 */
+	public function removesBlankLineAfterElementContainingSelfClosingElement()
+	{
+		$text = "<div>
+<img />
+
+</div>";
+
+		$result = "<div>
+<img />
+</div>";
+
+		$this->assertEquals($result, $this->comparify->transform($text));
+	}
+
+	/**
+	 * @test
+	 */
 	public function removesBlankLinesAfterTagRecursive()
 	{
 		$text = "<div>

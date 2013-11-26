@@ -18,6 +18,39 @@ class Comparify
 			)*
 		)";
 
+	private function selfClosingElement()
+	{
+		return "<(?<full_tag>(?<tag>hr|br)" . $this->attributes . ")[ ]?/?>";
+	}
+
+	private function element(array $allowedTags = null)
+	{
+		if ($allowedTags === null)
+		{
+			$allowedTags = '\w+';
+		}
+		else
+		{
+			$allowedTags = implode('|', $allowedTags); 
+		}
+
+		return
+			"
+			(?<element>
+			(?<full_tag><(?<tag>" . $allowedTags . ")" . $this->attributes . ">)
+				(?<content>
+					(
+						[^<]
+						|
+						(?&element)
+						|
+						<code>(.|[\n])+</code>
+					)*
+				)
+			</\g{tag}>
+			)";
+	}
+
 	/**
 	 * @param string $input
 	 * @return string
@@ -39,9 +72,7 @@ class Comparify
 
 	private function handleSelfClosingTags($text)
 	{
-		$pattern = 	"@<(?<tag>hr|br)" . $this->attributes . "/?>@x";
-
-		return preg_replace($pattern, '<\1 \2/>', $text);
+		return preg_replace('@' . $this->selfClosingElement() . '@', '<\1 \2/>', $text);
 	}
 
 	private  function removeSpacingOnBlankLines($text)
@@ -51,20 +82,7 @@ class Comparify
 
 	private function setOpeningTagsOnOneLine($text)
 	{
-		$pattern =
-			"@
-			(?<html>
-				(?<full_tag><(?<tag>\w+)" . $this->attributes . ">)
-					(?<content>
-						(
-							[^<]
-							|
-							(?&html)
-						)*
-					)
-				</\g{tag}>
-			)
-			@x";
+		$pattern = '@' . $this->element() . '@x';
 
 		return preg_replace_callback(
 			$pattern,
@@ -79,12 +97,7 @@ class Comparify
 
 	private function setEmptyTagsOnOneLine($text)
 	{
-		$pattern =
-			"@
-			(?<html>
-				<(?<full_tag>(?<tag>hr|br)" . $this->attributes . ")[ ]?/?>
-			)
-			@x";
+		$pattern = '@' . $this->selfClosingElement() . '@x';
 
 		return preg_replace_callback(
 			$pattern,
@@ -99,26 +112,13 @@ class Comparify
 	private function removeBlankLineBetweenElements($text)
 	{
 		$pattern =
-			"@
-			(?<html>
-				<(?<tag>\w+)" . $this->attributes . ">
-					(?<content>
-						(
-							[^<]
-							|
-							(?&html)
-						)*
-					)
-				</\g{tag}>
-			)
-			[\n][\n]+
-			@x";
+			"@" . $this->element() . "[\n][\n]+	@x";
 
 		return preg_replace_callback(
 			$pattern,
 			function($match)
 			{
-				return $match['html'] . "\n";
+				return $match['element'] . "\n";
 			},
 			$text
 		);
@@ -160,24 +160,7 @@ class Comparify
 	private function setBlockElementsOnOwnLine($text)
 	{
 		$tags = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'ul', 'li');
-		$tags = implode('|', $tags);
-
-		$pattern =
-			"@
-			[\n]*
-			(?<html>
-				(?<full_tag><(?<tag>" . $tags . ")" . $this->attributes . ">)
-					(?<content>
-						(
-							[^<]
-							|
-							(?&html)
-						)*
-					)
-				</\g{tag}>
-			)
-			[\n]*
-			@x";
+		$pattern = "@[\n]*" . $this->element($tags) . "[\n]*@x";
 
 		return preg_replace_callback(
 			$pattern,
