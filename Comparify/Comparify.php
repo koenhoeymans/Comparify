@@ -23,7 +23,7 @@ class Comparify
 		return "<(?<self_closing_tag>(hr|br|img)" . $this->attributes . ")[ ]?/?>";
 	}
 
-	private function element(array $allowedTags = null)
+	private function element(array $allowedTags = null, array $deniedTags = null)
 	{
 		if ($allowedTags === null)
 		{
@@ -34,10 +34,24 @@ class Comparify
 			$allowedTags = implode('|', $allowedTags); 
 		}
 
+		if ($deniedTags === null)
+		{
+			$deniedTags = '';
+		}
+		else
+		{
+			$deniedTags = '(?!' . implode('|', $deniedTags) . ')';
+		}
+
 		return
 			"
 			(?<element>
-			(?<full_tag><(?<tag>" . $allowedTags . ")" . $this->attributes . ">)
+			(?<full_tag>
+				<"
+					. $deniedTags . "(?<tag>" . $allowedTags . ")"
+					. $this->attributes
+				. ">
+			)
 				(?<content>
 					(
 						[^<]
@@ -130,26 +144,7 @@ class Comparify
 
 	private function removeBlankLineInsideElement($text)
 	{
-		$pattern =
-			"@
-			(?<=^|[\n])
-			(?<html>
-				(?<full_tag><(?!code)(?<tag>\w+)" . $this->attributes . ">)
-					(?<content>
-						(
-							[^<]
-							|
-							(?&html)
-							|
-							<code>(.|[\n])+</code>
-							|
-							" . $this->selfClosingElement() . "
-						)*
-					)
-				</\g{tag}>
-			)
-			(?=[\n]|$)
-			@x";
+		$pattern = "@(?<=^|[\n])" . $this->element(null, array('code')) . "(?=[\n]|$)@x";
 
 		return preg_replace_callback(
 			$pattern,
