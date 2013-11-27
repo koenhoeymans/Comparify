@@ -116,6 +116,26 @@ foo
 	/**
 	 * @test
 	 */
+	public function removesBlankLinesAfterDoubleCodeElementInsideOtherElement()
+	{
+		$text = "<p><code>foo</code></p>
+<pre><code>foo</code></pre>
+
+
+<p><code>foo</code></p>
+<p>paragraph</p>";
+
+		$result = "<p><code>foo</code></p>
+<pre><code>foo</code></pre>
+<p><code>foo</code></p>
+<p>paragraph</p>";
+
+		$this->assertEquals($result, $this->comparify->transform($text));
+	}
+
+	/**
+	 * @test
+	 */
 	public function removesBlankLineAfterElementContainingSelfClosingElement()
 	{
 		$text = "<div>
