@@ -58,7 +58,7 @@ class Comparify
 						|
 						(?&element)
 						|
-						<code>[\S\s]+?</code>
+						<code>[^<]+?</code>
 						|
 						" . $this->selfClosingElement() . "
 					)*

@@ -136,6 +136,29 @@ foo
 	/**
 	 * @test
 	 */
+	public function elementDoesNotAcceptLesserThanSignInsideCode()
+	{
+		$text = "<pre><code>foo</code></pre>
+<p>a</p>
+
+<p>Markdown:</p>
+<pre><code>foo</code></pre>
+<pre><code>foo</code></pre>
+
+";
+
+		$result = "<pre><code>foo</code></pre>
+<p>a</p>
+<p>Markdown:</p>
+<pre><code>foo</code></pre>
+<pre><code>foo</code></pre>";
+
+		$this->assertEquals($result, $this->comparify->transform($text));
+	}
+
+	/**
+	 * @test
+	 */
 	public function removesBlankLineAfterElementContainingSelfClosingElement()
 	{
 		$text = "<div>
