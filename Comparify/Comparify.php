@@ -56,9 +56,11 @@ class Comparify
 					(
 						[^<]
 						|
-						(?&element)
-						|
 						<code>[^<]+?</code>
+						|
+						<(?<subtag>\w+)" . $this->attributes . ">
+						(?&content)
+						</\g{subtag}>
 						|
 						" . $this->selfClosingElement() . "
 					)*
@@ -160,7 +162,9 @@ class Comparify
 
 	private function setBlockElementsOnOwnLine($text)
 	{
-		$tags = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'ul', 'li');
+		$tags = array(
+			'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'ul', 'ol', 'li'
+		);
 		$pattern = "@[\n]*" . $this->element($tags) . "[\n]*@x";
 
 		return preg_replace_callback(

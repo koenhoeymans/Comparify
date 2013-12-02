@@ -299,13 +299,29 @@ bar
 	/**
 	 * @test
 	 */
-	public function setsListItemsOnOwnLine()
+	public function setsOrderedListItemsOnOwnLine()
 	{
-		$text = "<ul><li>item</li></ul>";
+		$text = "<ul><li>item</li><li>item</li></ul>";
 
 		$result = "<ul>
 <li>item</li>
+<li>item</li>
 </ul>";
+
+		$this->assertEquals($result, $this->comparify->transform($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function setsListItemsContainingElementOnOwnLine()
+	{
+		$text = "<ol><li><em>a</em></li><li><em>b</em></li></ol>";
+
+		$result = "<ol>
+<li><em>a</em></li>
+<li><em>b</em></li>
+</ol>";
 
 		$this->assertEquals($result, $this->comparify->transform($text));
 	}
