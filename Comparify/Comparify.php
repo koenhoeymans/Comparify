@@ -10,6 +10,8 @@ namespace Comparify;
  */
 class Comparify
 {
+	private $selfClosingTags = 'hr|br|img';
+
 	private $attributes =
 		"(?J)(?<attributes>
 			(
@@ -20,7 +22,9 @@ class Comparify
 
 	private function selfClosingElement()
 	{
-		return "<(?<self_closing_tag>(hr|br|img)" . $this->attributes . ")[ ]?/?>";
+		return "
+			<(?<self_closing_tag>("
+			. $this->selfClosingTags . ")" . $this->attributes . ")[ ]?/?>";
 	}
 
 	private function element(array $allowedTags = null, array $deniedTags = null)
@@ -76,6 +80,7 @@ class Comparify
 	public function transform($text)
 	{
 		$text = $this->handleSelfClosingTags($text);
+		$text = $this->openClosedElements($text);
 		$text = $this->removeSpacingOnBlankLines($text);
 		$text = $this->setOpeningTagsOnOneLine($text);
 		$text = $this->setEmptyTagsOnOneLine($text);
@@ -91,6 +96,15 @@ class Comparify
 	private function handleSelfClosingTags($text)
 	{
 		return preg_replace('@' . $this->selfClosingElement() . '@', '<\1 \2/>', $text);
+	}
+
+	private function openClosedElements($text)
+	{
+		return preg_replace(
+			'@(?!' . $this->selfClosingElement() . ')<(?<tag>\w+)(' . $this->attributes . ')[ ]/>@x',
+			'<\6\7></\6>',
+			$text
+		);
 	}
 
 	private  function removeSpacingOnBlankLines($text)

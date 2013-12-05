@@ -365,4 +365,16 @@ bar
 
 		$this->assertEquals($result, $this->comparify->transform($text));		
 	}
+
+	/**
+	 * @test
+	 */
+	public function opensClosedElementsOtherThanSelfClosing()
+	{
+		$text = "<div />";
+
+		$result = "<div></div>";
+
+		$this->assertEquals($result, $this->comparify->transform($text));
+	}
 }
