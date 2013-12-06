@@ -369,6 +369,24 @@ bar
 	/**
 	 * @test
 	 */
+	public function setsPreOnOwnLine()
+	{
+		$text = "<li><pre><code>code block
+as first element of a list item
+</code></pre></li>";
+
+		$result = "<li>
+<pre><code>code block
+as first element of a list item
+</code></pre>
+</li>";
+
+		$this->assertEquals($result, $this->comparify->transform($text));
+	}
+
+	/**
+	 * @test
+	 */
 	public function opensClosedElementsOtherThanSelfClosing()
 	{
 		$text = "<div />";

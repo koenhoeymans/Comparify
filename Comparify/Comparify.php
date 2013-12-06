@@ -177,7 +177,8 @@ class Comparify
 	private function setBlockElementsOnOwnLine($text)
 	{
 		$tags = array(
-			'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'ul', 'ol', 'li'
+			'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+			'li', 'ol', 'p', 'pre', 'ul'
 		);
 		$pattern = "@[\n]*" . $this->element($tags) . "[\n]*@x";
 
