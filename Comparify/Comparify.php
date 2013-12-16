@@ -178,7 +178,8 @@ class Comparify
 	{
 		$tags = array(
 			'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-			'li', 'ol', 'p', 'pre', 'ul'
+			'li', 'ol', 'p', 'pre', 'table', 'tbody', 'td', 'tfoot',
+			'th', 'thead', 'tr', 'ul'
 		);
 		$pattern = "@[\n]*" . $this->element($tags) . "[\n]*@x";
 

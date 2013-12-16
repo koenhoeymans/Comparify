@@ -1,6 +1,10 @@
 Comparify Changelog
 ===================
 
+*	0.0.4
+
+	* Sets elements of a table on own line.
+
 *	0.0.3
 
 	* Sets `<pre>` on own line.
