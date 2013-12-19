@@ -85,7 +85,7 @@ class Comparify
 		$text = $this->setOpeningTagsOnOneLine($text);
 		$text = $this->setEmptyTagsOnOneLine($text);
 		$text = $this->removeWhitespaceBeforeTagsOnOwnLine($text);
-		$text = $this->setBlockElementsOnOwnLine($text);
+		$text = $this->setSelectedElementsOnOwnLine($text);
 		$text = $this->removeBlankLineInsideElement($text);
 		$text = $this->removeBlankLineBetweenElements($text);
 		$text = trim($text);
@@ -174,10 +174,10 @@ class Comparify
 		);		
 	}
 
-	private function setBlockElementsOnOwnLine($text)
+	private function setSelectedElementsOnOwnLine($text)
 	{
 		$tags = array(
-			'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+			'blockquote', 'dd', 'dl', 'dt', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
 			'li', 'ol', 'p', 'pre', 'table', 'tbody', 'td', 'tfoot',
 			'th', 'thead', 'tr', 'ul'
 		);
@@ -187,7 +187,7 @@ class Comparify
 			$pattern,
 			function($match)
 			{
-				$content = $this->setBlockElementsOnOwnLine($match['content']);
+				$content = $this->setSelectedElementsOnOwnLine($match['content']);
 				return "\n"
 					. $match['full_tag'] . $content
 					. '</' . $match['tag'] . ">\n";
