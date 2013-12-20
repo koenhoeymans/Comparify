@@ -88,6 +88,7 @@ class Comparify
 		$text = $this->setSelectedElementsOnOwnLine($text);
 		$text = $this->removeBlankLineInsideElement($text);
 		$text = $this->removeBlankLineBetweenElements($text);
+		$text = $this->trimeWhitespaceAtStartAndEndInsideElements($text);
 		$text = trim($text);
 
 		return $text;
@@ -181,16 +182,25 @@ class Comparify
 			'li', 'ol', 'p', 'pre', 'table', 'tbody', 'td', 'tfoot',
 			'th', 'thead', 'tr', 'ul'
 		);
-		$pattern = "@[\n]*" . $this->element($tags) . "[\n]*@x";
+		$pattern = "@[\n]*((?J)"
+			. $this->element($tags) . "|" . $this->selfClosingElement()
+			. ")[\n]*@x";
 
 		return preg_replace_callback(
 			$pattern,
 			function($match)
 			{
 				$content = $this->setSelectedElementsOnOwnLine($match['content']);
+				if (!empty($match['self_closing_tag']))
+				{
+					return "\n<" . $match['self_closing_tag'] . " />\n";
+				}
+				else
+				{
 				return "\n"
 					. $match['full_tag'] . $content
 					. '</' . $match['tag'] . ">\n";
+				}
 			},
 			$text
 		);
@@ -210,5 +220,22 @@ class Comparify
 			@x";
 
 		return preg_replace($pattern, '\2', $text);
+	}
+
+	private function trimeWhitespaceAtStartAndEndInsideElements($text)
+	{
+		$tags = array('p');
+		$pattern = "@" . $this->element($tags) . "@x";
+		
+		return preg_replace_callback(
+				$pattern,
+				function($match)
+				{
+					$content = $this->trimeWhitespaceAtStartAndEndInsideElements($match['content']);
+					return $match['full_tag'] . trim($content)
+							. '</' . $match['tag'] . ">";
+				},
+				$text
+		);
 	}
 }

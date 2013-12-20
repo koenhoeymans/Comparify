@@ -314,6 +314,19 @@ bar
 	/**
 	 * @test
 	 */
+	public function setsHorizontalRuleOnOwnLine()
+	{
+		$text = "<div>foo</div><hr />";
+
+		$result = "<div>foo</div>
+<hr />";
+
+		$this->assertEquals($result, $this->comparify->transform($text));
+	}
+
+	/**
+	 * @test
+	 */
 	public function setsListItemsContainingElementOnOwnLine()
 	{
 		$text = "<ol><li><em>a</em></li><li><em>b</em></li></ol>";
@@ -392,6 +405,18 @@ as first element of a list item
 		$text = "<div />";
 
 		$result = "<div></div>";
+
+		$this->assertEquals($result, $this->comparify->transform($text));
+	}
+
+	/**
+	 * @test
+	 */
+	public function removesWhiteSpaceAtStartOfParagraph()
+	{
+		$text = "<p> A paragraph</p>";
+
+		$result = "<p>A paragraph</p>";
 
 		$this->assertEquals($result, $this->comparify->transform($text));
 	}

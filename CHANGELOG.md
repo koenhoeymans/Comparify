@@ -1,6 +1,11 @@
 Comparify Changelog
 ===================
 
+*	0.0.6
+
+	* Trims whitespace at start and end inside paragraphs.
+	* Sets hr on own line.
+
 *	0.0.5
 
 	* Adds dd, dl and dt as elements to set on own line.
