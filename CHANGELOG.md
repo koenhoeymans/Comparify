@@ -1,6 +1,11 @@
 Comparify Changelog
 ===================
 
+*   0.1.0
+
+    * Changed project directory layout.
+    * Conforms to PSR specifications.
+
 *	0.0.6
 
 	* Trims whitespace at start and end inside paragraphs.
