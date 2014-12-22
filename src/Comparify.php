@@ -216,14 +216,14 @@ class Comparify
         $pattern = "@".$this->element($tags)."@x";
 
         return preg_replace_callback(
-                $pattern,
-                function ($match) {
-                    $content = $this->trimeWhitespaceAtStartAndEndInsideElements($match['content']);
+            $pattern,
+            function ($match) {
+                $content = $this->trimeWhitespaceAtStartAndEndInsideElements($match['content']);
 
-                    return $match['full_tag'].trim($content)
+                return $match['full_tag'].trim($content)
                             .'</'.$match['tag'].">";
-                },
-                $text
+            },
+            $text
         );
     }
 }

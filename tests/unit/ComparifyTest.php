@@ -76,7 +76,7 @@ class ComparifyTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function removesMultipleBlankLines_2()
+    public function removesMultipleBlankLines2()
     {
         $text = "<p>This is the <b>simple case</b></p>
 
