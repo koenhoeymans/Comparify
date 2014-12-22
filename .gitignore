@@ -1,3 +1,4 @@
+build/qualitycheck
 vendor/
 composer.phar
 composer.lock
