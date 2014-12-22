@@ -1,8 +1,8 @@
 <?php
 
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'TestHelper.php';
+namespace Comparify;
 
-class Comparify_ComparifyTest extends PHPUnit_Framework_TestCase
+class ComparifyTest extends \PHPUnit_Framework_TestCase
 {
 	public function setup()
 	{
