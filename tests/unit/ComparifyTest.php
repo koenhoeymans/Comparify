@@ -356,6 +356,20 @@ bar
     /**
      * @test
      */
+    public function setsListItemsContainingElementWithAttributeOnOwnLine2()
+    {
+        $text = "<ul><li><a href=\"#a-header\">header</a></li></ul>";
+
+        $result = "<ul>
+<li><a href=\"#a-header\">header</a></li>
+</ul>";
+
+        $this->assertEquals($result, $this->comparify->transform($text));
+    }
+
+    /**
+     * @test
+     */
     public function removesWhiteSpaceBeforeTagsOnOwnLine()
     {
         $text = "<foo>bar</foo>
