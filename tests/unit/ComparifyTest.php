@@ -299,7 +299,7 @@ bar
     /**
      * @test
      */
-    public function setsOrderedListItemsOnOwnLine()
+    public function setsUnorderedListItemsOnOwnLine()
     {
         $text = "<ul><li>item</li><li>item</li></ul>";
 
