@@ -5,15 +5,13 @@
 	"keywords": ["testing", "prettify"],
 	"authors": [{
 		"name": "Koen Hoeymans",
-		"email": "koenhoeymans@gmail.com",
-		"role": "lead"
+		"email": "koenhoeymans@gmail.com"
 	}],
 	"require": {
-		"php": ">=5.4.6"
+		"php": ">=7.2"
 	},
 	"require-dev": {
-		"phpunit/phpunit": "*",
-		"qualitycheck/qualitycheck": "*"
+		"phpunit/phpunit": "7.*"
 	},
 	"autoload": {
        "psr-4": { "Comparify\\": ["src/", "tests/unit"] }
