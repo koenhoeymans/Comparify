@@ -2,7 +2,7 @@
 
 namespace Comparify;
 
-class ComparifyTest extends \PHPUnit_Framework_TestCase
+class ComparifyTest extends \PHPUnit\Framework\TestCase
 {
     public function setup()
     {

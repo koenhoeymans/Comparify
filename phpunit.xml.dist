@@ -5,8 +5,8 @@
         </testsuite>
 	</testsuites>
     <filter>
-        <blacklist>
-            <directory>./vendor</directory>
-        </blacklist>
+        <whitelist>
+            <directory>./tests</directory>
+        </whitelist>
     </filter>
 </phpunit>
